@@ -15,49 +15,6 @@ public class SuggestionTermsServiceTest
         _suggestionService = new SuggestionTermsService();
     }
 
-    [Fact]
-    public void GetSuggestion_ShouldReturnSuggestion()
-    {
-        // -- Arrange -- 
-        var list = new List<string> { "gros" };
-
-        // -- Act -- 
-        var result = _suggestionService.GetSuggestions("gros", list, 1).ToList();
-
-        // -- Assert -- 
-        Assert.Single(result);
-    }
-
-
-    [Fact]
-    public void GetSuggestions_ShouldReturnExpectedOriginalResults()
-    {
-        // -- Arrange -- 
-        var list = new List<string> { "gros", "gras", "graisse", "aggressif", "go" };
-
-        // -- Act -- 
-        var result = _suggestionService.GetSuggestions("gros", list, 2).ToList();
-
-        // -- Assert -- 
-        Assert.Equal(2, result.Count);
-        Assert.Equal("gros", result[0]);
-        Assert.Equal("gras", result[1]);
-    }
-
-    [Fact]
-    public void GetSuggestions_ShouldReturnEmpty_WhenNoMatchFound()
-    {
-        // -- Arrange -- 
-        var list = new List<string> { "fr", "go" };
-
-        // -- Act -- 
-        var result = _suggestionService.GetSuggestions("gros", list, 3);
-
-        // -- Assert -- 
-        Assert.Empty(result);
-    }
-
-
     [Theory]
     // -- Correspondance exacte (Ton premier test) -- 
     [InlineData("gros", new[] { "gros" }, 1, new[] { "gros" })]
@@ -88,29 +45,4 @@ public class SuggestionTermsServiceTest
         Assert.Equal(expected, result);
     }
 
-
-    [Theory]
-    // -- Cas standard de l'énoncé -- 
-    [InlineData("gros", 3, "gros", "gras", "aggressif")]
-    // -- Cas où on demande 0 suggestions -- 
-    [InlineData("gros", 0)]
-    public void GetSuggestions_VerifyMultipleScenarios(
-        string query,
-        int n,
-        params string[] expected)
-    {
-        // -- Arrange -- 
-        var list = new List<string> { "gros", "gras", "graisse", "aggressif", "go" };
-
-        // -- Act -- 
-        var result = _suggestionService.GetSuggestions(query, list, n).ToList();
-
-        // -- Assert -- 
-        Assert.Equal(expected.Length, result.Count); // -- Vérifie la taille du retour -- 
-        for (int i = 0; i < expected.Length; i++)
-        {
-            // -- Vérifie chaque mot et son ordre --
-            Assert.Equal(expected[i], result[i]);
-        }
-    }
 }
