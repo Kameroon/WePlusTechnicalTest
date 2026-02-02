@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="WePlusTechnicalTest.UnitTest/WePlusTechnicalTest.UnitTest.csproj" />
+  <Project Path="WePlusTechnicalTest/WePlusTechnicalTest.csproj" />
+</Solution>
